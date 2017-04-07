@@ -1,8 +1,6 @@
 # Ignore everything
-*
 
-# But not these files...
-!Platformer/Assets/*
-
-# ...even if they are in subdirectories
-!*/
+*.meta
+*.bin
+*.log
+Platformer/Library/*
