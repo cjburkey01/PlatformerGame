@@ -3,4 +3,5 @@
 *.meta
 *.bin
 *.log
+*.DS_Store
 Platformer/Library/*
