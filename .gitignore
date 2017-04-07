@@ -1,6 +1,5 @@
 # Ignore everything
 
-*.meta
 *.bin
 *.log
 *.DS_Store
