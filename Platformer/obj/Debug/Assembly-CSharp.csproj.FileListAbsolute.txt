@@ -1,0 +1,2 @@
+C:\Users\Andre\Desktop\my_Games\PlatformerGame\Platformer\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
+C:\Users\Andre\Desktop\my_Games\PlatformerGame\Platformer\obj\Debug\Assembly-CSharp.pdb
