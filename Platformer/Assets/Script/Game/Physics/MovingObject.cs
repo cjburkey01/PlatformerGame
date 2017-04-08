@@ -2,24 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider2D))]
-public class PlayerControl : MonoBehaviour {
+public class MovingObject : MonoBehaviour {
 
-	private float refDef = 0.0f;
 	private float radius;
-	//private bool collTop = false;
-	//private bool collRight = false;
-	private bool collBottom = false;
-	//private bool collLeft = false;
-	private Vector2 velocity = Vector2.zero;
+
+	[HideInInspector]
+	public Vector2 velocity = Vector2.zero;
+	[HideInInspector]
+	public bool collBottom = false;
+	[HideInInspector]
+	public float refDef = 0.0f;
 
 	public int accuracy = 5;
 	public float gravity = 0.005f;
 	public float drag = 0.2f;
 	public float maxYVel = 3f;
-	public float jumpForce = 0.15f;
-	public float moveSpeed = 0.15f;
-	public float speedDamping = 0.1f;
+
+	public virtual void FixedUpdateMovement() {
+		velocity.y -= gravity;
+		if(velocity.y > maxYVel) velocity.y = maxYVel;
+	}
 
 	void Start() {
 		radius = GetComponent<BoxCollider2D>().bounds.extents.y;
@@ -27,7 +29,7 @@ public class PlayerControl : MonoBehaviour {
 
 	void FixedUpdate() {
 		// Velocity modification
-		MoveCharacter();
+		FixedUpdateMovement();
 		CollisionDetection();
 		transform.position += new Vector3(velocity.x, velocity.y, transform.position.z);
 
@@ -121,17 +123,6 @@ public class PlayerControl : MonoBehaviour {
 				}
 			}
 		}
-	}
-
-	void MoveCharacter() {
-		// Vertical
-		velocity.y -= gravity;
-		if(velocity.y > maxYVel) velocity.y = maxYVel;
-		if(Input.GetAxis("Vertical") > 0 && collBottom) velocity.y = jumpForce;
-
-		// Horizontal
-		float target = Input.GetAxis("Horizontal") * moveSpeed;
-		velocity.x = Mathf.SmoothDamp(velocity.x, target, ref refDef, speedDamping);
 	}
 
 	RaycastHit2D Raycast(Vector2 start, Vector2 dir, float dist) {
