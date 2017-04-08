@@ -11,8 +11,9 @@ public class CameraFollow : MonoBehaviour {
 	public float movingZoom = 10f;
 
 	private float zoom = 5f;
-	private Vector3 vel = Vector3.zero;
 	private float r = 0f;
+	private Vector3 vel = Vector3.zero;
+	private Vector3 prev = Vector3.zero;
 
 	void FixedUpdate() {
 		// Smooth Movement
@@ -22,11 +23,9 @@ public class CameraFollow : MonoBehaviour {
 
 		// Smooth Zoom
 		float targetZoom = defaultZoom;
-		if(obj.GetComponent<Rigidbody2D>() != null) {
-			Vector3 vel = obj.GetComponent<Rigidbody2D>().velocity;
-			if(vel.x != 0 || vel.y != 0 || vel.z != 0) {
-				targetZoom = movingZoom;
-			}
+		if(!prev.Equals(obj.transform.position)) {
+			targetZoom = movingZoom;
+			prev = obj.transform.position;
 		}
 		GetComponent<Camera>().orthographicSize = Mathf.SmoothDamp(zoom, targetZoom, ref r, zoomDamping);
 	}
