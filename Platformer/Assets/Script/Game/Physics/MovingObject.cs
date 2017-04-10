@@ -33,10 +33,10 @@ public class MovingObject : MonoBehaviour {
 		CollisionDetection();
 		transform.position += new Vector3(velocity.x, velocity.y, transform.position.z);
 
-		// Rotate player
-		if(Input.GetAxis("Horizontal") > 0) {
+		// Rotate object
+		if(velocity.x > 0) {
 			transform.rotation = Quaternion.Euler(0, 0, 0);
-		} else if(Input.GetAxis("Horizontal") < 0) {
+		} else if(velocity.y < 0) {
 			transform.rotation = Quaternion.Euler(0, 180, 0);
 		}
 	}
