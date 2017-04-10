@@ -6,9 +6,9 @@ public class CameraFollow : MonoBehaviour {
 
 	public GameObject obj;
 	public float damping = 0.3f;
-	public float zoomDamping = 0.5f;
+	public float zoomDamping = 1f;
 	public float defaultZoom = 5f;
-	public float movingZoom = 10f;
+	public float movingZoom = 50f;
 
 	private float zoom = 5f;
 	private float r = 0f;
