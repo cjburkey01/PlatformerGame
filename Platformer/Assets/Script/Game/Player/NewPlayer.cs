@@ -14,6 +14,7 @@ public class NewPlayer : MonoBehaviour {
 	public float horizontalSpeed = 1.0f;
 	public float horizontalDamping = 0.1f;
 	public float jumpForce = 1.0f;
+	public GameObject jimothy;
 
 	void Start() {
 		rb = GetComponent<Rigidbody2D>();
@@ -46,6 +47,12 @@ public class NewPlayer : MonoBehaviour {
 			}
 		} else {
 			usedVertical = false;
+		}
+	}
+
+	void OnTriggerEnter2D(Collider2D c) {
+		if(c.gameObject.Equals(jimothy)) {
+			transform.position = new Vector3(0, 3, 0);
 		}
 	}
 
