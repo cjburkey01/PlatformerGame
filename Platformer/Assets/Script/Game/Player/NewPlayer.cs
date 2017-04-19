@@ -9,7 +9,7 @@ public class NewPlayer : MonoBehaviour {
 	private Vector3 vel;
 	private float zero = 0;
 	private bool usedVertical = false;
-	private bool grounded = false;
+	private bool canJump;
 
 	public float horizontalSpeed = 1.0f;
 	public float horizontalDamping = 0.1f;
@@ -40,13 +40,19 @@ public class NewPlayer : MonoBehaviour {
 		vel.x = Mathf.SmoothDamp(vel.x, target, ref zero, horizontalDamping);
 
 		// Jump
-		if(Input.GetAxisRaw("Vertical") > 0 && grounded) {
+		if(Input.GetAxisRaw("Vertical") > 0 && canJump) {
 			if(!usedVertical) {
 				usedVertical = true;
 				vel.y = jumpForce;
 			}
 		} else {
 			usedVertical = false;
+		}
+
+		if (rb.velocity.y == 0f && Input.GetAxisRaw ("Vertical") == 0f) {
+			canJump = true;
+		} else {
+			canJump = false;
 		}
 	}
 
@@ -56,15 +62,17 @@ public class NewPlayer : MonoBehaviour {
 		}
 	}
 
-	void OnCollisionStay2D(Collision2D c) {
+	/*void OnCollisionStay2D(Collision2D c) {
 		ContactPoint2D cp2d = c.contacts[0];
 		if(cp2d.point.y < transform.position.y) {
 			grounded = true;
+			canJump = true;
 		}
 	}
 
 	void OnCollisionExit2D(Collision2D c) {
 		grounded = false;
-	}
+		canJump = false;
+	}*/
 
 }
