@@ -15,6 +15,7 @@ public class NewPlayer : MonoBehaviour {
 	public float horizontalDamping = 0.1f;
 	public float jumpForce = 1.0f;
 	public GameObject jimothy;
+	public Weapon weapon;
 
 	void Start() {
 		rb = GetComponent<Rigidbody2D>();
