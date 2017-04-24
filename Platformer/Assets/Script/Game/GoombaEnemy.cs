@@ -33,9 +33,9 @@ public class GoombaEnemy : MonoBehaviour {
 		transform.position = Vector2.Lerp(origin, target, progress);
 
 		if(prev.x < transform.position.x) {
-			transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+			transform.rotation = Quaternion.Euler(0, 0, 0);
 		} else if(prev.x > transform.position.x) {
-			transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+			transform.rotation = Quaternion.Euler(0, 180, 0);
 		}
 		prev = transform.position;
 	}

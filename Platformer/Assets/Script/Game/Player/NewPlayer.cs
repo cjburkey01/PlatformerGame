@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class NewPlayer : MonoBehaviour {
-
+	
 	private Rigidbody2D rb;
 	private Vector2 prevPos;
 	private Vector3 vel;
@@ -15,7 +15,6 @@ public class NewPlayer : MonoBehaviour {
 	public float horizontalDamping = 0.1f;
 	public float jumpForce = 1.0f;
 	public GameObject jimothy;
-	public Weapon weapon;
 
 	void Start() {
 		rb = GetComponent<Rigidbody2D>();
@@ -28,14 +27,6 @@ public class NewPlayer : MonoBehaviour {
 	}
 
 	void Move() {
-		// Rotation
-		if(prevPos.x < transform.position.x) {
-			transform.rotation = Quaternion.Euler(0, 0, 0);
-		} else if(prevPos.x > transform.position.x) {
-			transform.rotation = Quaternion.Euler(0, 180, 0);
-		}
-		prevPos = transform.position;
-
 		// Left/Right
 		float target = Input.GetAxisRaw("Horizontal") * horizontalSpeed;
 		vel.x = Mathf.SmoothDamp(vel.x, target, ref zero, horizontalDamping);
@@ -50,11 +41,19 @@ public class NewPlayer : MonoBehaviour {
 			usedVertical = false;
 		}
 
-		if (rb.velocity.y == 0f && Input.GetAxisRaw ("Vertical") == 0f) {
+		if(IsGrounded() && Input.GetAxisRaw("Vertical") == 0f) {
 			canJump = true;
 		} else {
 			canJump = false;
 		}
+
+		// Rotation
+		if(prevPos.x < transform.position.x) {
+			transform.rotation = Quaternion.Euler(0, 0, 0);
+		} else if(prevPos.x > transform.position.x) {
+			transform.rotation = Quaternion.Euler(0, 180, 0);
+		}
+		prevPos = transform.position;
 	}
 
 	void OnTriggerEnter2D(Collider2D c) {
@@ -63,17 +62,10 @@ public class NewPlayer : MonoBehaviour {
 		}
 	}
 
-	/*void OnCollisionStay2D(Collision2D c) {
-		ContactPoint2D cp2d = c.contacts[0];
-		if(cp2d.point.y < transform.position.y) {
-			grounded = true;
-			canJump = true;
-		}
+	bool IsGrounded() {
+		GroundedTest gt = GetComponentInChildren<GroundedTest>();
+		if(gt != null) return gt.grounded;
+		return false;
 	}
-
-	void OnCollisionExit2D(Collision2D c) {
-		grounded = false;
-		canJump = false;
-	}*/
 
 }
