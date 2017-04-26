@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewPlayer : MonoBehaviour {
+public class Player : MonoBehaviour {
 	
 	private Rigidbody2D rb;
 	private Vector2 prevPos;
@@ -54,6 +54,11 @@ public class NewPlayer : MonoBehaviour {
 			transform.rotation = Quaternion.Euler(0, 180, 0);
 		}
 		prevPos = transform.position;
+
+		if(transform.position.y <= -10){
+			transform.position = new Vector3(0, 3, 0);
+			
+		}
 	}
 
 	void OnTriggerEnter2D(Collider2D c) {
