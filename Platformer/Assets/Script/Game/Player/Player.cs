@@ -15,9 +15,11 @@ public class Player : MonoBehaviour {
 	public float horizontalDamping = 0.1f;
 	public float jumpForce = 1.0f;
 	public GameObject jimothy;
+	public Weapon inHand;
 
 	void Start() {
 		rb = GetComponent<Rigidbody2D>();
+		inHand.ammo = 20;
 	}
 
 	void FixedUpdate() {
@@ -58,6 +60,10 @@ public class Player : MonoBehaviour {
 		if(transform.position.y <= -10){
 			transform.position = new Vector3(0, 3, 0);
 			
+		}
+
+		if(Input.GetKeyDown(KeyCode.X)) {
+			inHand.Shoot (inHand.gameObject.transform.position, transform.rotation.eulerAngles, 100);
 		}
 	}
 
