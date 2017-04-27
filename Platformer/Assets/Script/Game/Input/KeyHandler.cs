@@ -9,7 +9,6 @@ public class KeyHandler {
 
 	public static void Init() {
 		if(!init) {
-			
 			init = true;
 		}
 	}
@@ -26,8 +25,8 @@ public class KeyHandler {
 
 	public static bool IsKeyPressed(string name) {
 		KeyCode c = GetKey(name);
-		if(c != null) return Input.GetKey(c);
-		return false;
+		if(c == KeyCode.None) return false;
+		return Input.GetKey(c);
 	}
 
 }
