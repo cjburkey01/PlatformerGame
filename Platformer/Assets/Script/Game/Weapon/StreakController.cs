@@ -5,7 +5,7 @@ using UnityEngine;
 public class StreakController : MonoBehaviour {
 
 	private LineRenderer lRen;
-	private float existTime = 0.5f;
+	private float existTime = 0.25f;
 	private float timeLeft;
 
 	public void Init() {
