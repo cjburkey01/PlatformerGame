@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GoombaEnemy : MonoBehaviour {
+public class GoombaEnemy : Damageable {
 	
 	public Vector3 point1;
 	public Vector3 point2;
 	public float timeInSeconds;
+	public GameObject explosion;
 
 	private Vector3 origin;
 	private Vector3 target;
@@ -32,11 +33,8 @@ public class GoombaEnemy : MonoBehaviour {
 		progress += Time.deltaTime / timeInSeconds;
 		transform.position = Vector2.Lerp(origin, target, progress);
 
-		if(prev.x < transform.position.x) {
-			transform.rotation = Quaternion.Euler(0, 0, 0);
-		} else if(prev.x > transform.position.x) {
-			transform.rotation = Quaternion.Euler(0, 180, 0);
-		}
+		if(prev.x < transform.position.x) transform.rotation = Quaternion.Euler(0, 0, 0);
+		else if(prev.x > transform.position.x) transform.rotation = Quaternion.Euler(0, 180, 0);
 		prev = transform.position;
 	}
 
@@ -44,6 +42,11 @@ public class GoombaEnemy : MonoBehaviour {
 		progress = 0;
 		origin = or;
 		target = tar;
+	}
+
+	public override void OnDeath() {
+		Instantiate(explosion, transform.position, Quaternion.identity);
+		base.OnDeath();
 	}
 
 }

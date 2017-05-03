@@ -16,9 +16,8 @@ public class Weapon : MonoBehaviour {
 			Vector3 pos = GetComponentInChildren<BarrelEnd>().GetPos();
 			RaycastHit2D hit = Physics2D.Raycast(pos, dir, maxDistance);
 			if(hit) {
-				Damager dmgr = hit.collider.GetComponent<Damager>();
-				if (dmgr != null)
-					dmgr.health -= damage;
+				Damageable dmgr = hit.collider.GetComponent<Damageable>();
+				if (dmgr != null) dmgr.SetHealth(dmgr.GetHealth() - damage);
 				Streak(pos, hit.point);
 			} else {
 				Streak(pos, pos + (dir * maxDistance));

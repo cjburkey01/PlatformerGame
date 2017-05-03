@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour {
-	
+public class Player : Damageable {
+
+	private EnumFacing direction = EnumFacing.RIGHT;
 	private Rigidbody2D rb;
 	private Vector2 prevPos;
 	private Vector3 vel;
 	private float zero = 0;
-	private int health = 100;
 	private bool usedVertical = false;
 	private bool canJump;
 
@@ -24,9 +24,8 @@ public class Player : MonoBehaviour {
 
 	void Update() {
 		// Rotation
-		if(prevPos.x < transform.position.x) transform.rotation = Quaternion.Euler(0, 0, 0);
-		else if(prevPos.x > transform.position.x) transform.rotation = Quaternion.Euler(0, 180, 0);
-		prevPos = transform.position;
+		if(direction.Equals(EnumFacing.LEFT)) transform.rotation = Quaternion.Euler(0, 180, 0);
+		else if(direction.Equals(EnumFacing.RIGHT)) transform.rotation = Quaternion.Euler(0, 0, 0);
 
 		// Shoot
 		if(Input.GetKeyDown(KeyCode.X)) inHand.Shoot(transform.right, 100);
@@ -55,9 +54,12 @@ public class Player : MonoBehaviour {
 		else canJump = false;
 
 		// Height-based Death
-		if(transform.position.y <= -10) TakeHealth(100);
+		if(transform.position.y <= -10) SetHealth(0);
 
-		CheckDeath();
+		// Rotate
+		float raw = Input.GetAxisRaw("Horizontal");
+		if(raw < 0) direction = EnumFacing.LEFT;
+		else if(raw > 0) direction = EnumFacing.RIGHT;
 	}
 
 	void OnTriggerEnter2D(Collider2D c) {
@@ -66,7 +68,7 @@ public class Player : MonoBehaviour {
 
 	void CheckDamage(Collider2D c) {
 		Damager dmgr = c.gameObject.GetComponent<Damager>();
-		if(dmgr != null) TakeHealth(dmgr.damageDone);
+		if(dmgr != null) SetHealth(GetHealth() - dmgr.damageDone);
 	}
 
 	bool IsGrounded() {
@@ -75,16 +77,10 @@ public class Player : MonoBehaviour {
 		return false;
 	}
 
-	void CheckDeath() {
-		if(health <= 0) {
-			vel = Vector3.zero;
-			transform.position = new Vector3(0, 3, 0);
-			health = 100;
-		}
-	}
-
-	public void TakeHealth(int amt) {
-		health -= amt;
+	public override void OnDeath() {
+		vel = Vector3.zero;
+		transform.position = new Vector3(0, 3, 0);
+		Reset();
 	}
 
 }
