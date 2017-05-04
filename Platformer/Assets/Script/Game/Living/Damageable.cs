@@ -12,7 +12,7 @@ public class Damageable : MonoBehaviour {
 		Reset();
 	}
 
-	void FixedUpdate() {
+	protected void FixedUpdate() {
 		if(health <= 0 && !alerted) {
 			alerted = true;
 			OnDeath();
@@ -20,6 +20,7 @@ public class Damageable : MonoBehaviour {
 	}
 
 	public void SetHealth(int amt) {
+		print (amt);
 		health = amt;
 	}
 

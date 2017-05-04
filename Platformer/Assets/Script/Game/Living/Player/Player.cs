@@ -32,6 +32,7 @@ public class Player : Damageable {
 	}
 
 	void FixedUpdate() {
+		base.FixedUpdate ();
 		vel = rb.velocity;
 		Move();
 		rb.velocity = vel;
@@ -80,6 +81,7 @@ public class Player : Damageable {
 	public override void OnDeath() {
 		vel = Vector3.zero;
 		transform.position = new Vector3(0, 3, 0);
+		FindObjectOfType<GoombaEnemy>().gameObject.SetActive(true);
 		Reset();
 	}
 

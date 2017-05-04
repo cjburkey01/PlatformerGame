@@ -46,7 +46,7 @@ public class GoombaEnemy : Damageable {
 
 	public override void OnDeath() {
 		Instantiate(explosion, transform.position, Quaternion.identity);
-		base.OnDeath();
+		gameObject.SetActive (false);
 	}
 
 }
