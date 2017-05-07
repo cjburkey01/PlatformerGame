@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LevelManager : MonoBehaviour {
+public class MenuEvents : MonoBehaviour {
 
-	void OnMouseDown()
-	{
-		SceneManager.LoadScene (name);
+	public void playButtonClick() {
+		SceneManager.LoadScene(1);
 	}
+
 }
