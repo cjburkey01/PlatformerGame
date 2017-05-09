@@ -11,7 +11,7 @@ public class LoadGame : MonoBehaviour {
 	private AsyncOperation asyncC;
 
 	void Start() {
-		StartCoroutine(LoadLevel(1));
+		StartCoroutine(LoadLevel(2));
 		print("Load game...");
 	}
 
