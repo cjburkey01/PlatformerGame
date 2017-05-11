@@ -9,8 +9,7 @@ public class Player : Damageable {
 	private Vector2 prevPos;
 	private Vector3 vel;
 	private float zero = 0;
-	private bool usedVertical = false;
-	private bool canJump;
+	private bool jump = false;
 
 	public float horizontalSpeed = 1.0f;
 	public float horizontalDamping = 0.1f;
@@ -24,14 +23,36 @@ public class Player : Damageable {
 
 	void Update() {
 		// Rotation
+		if(Input.GetKeyDown(KeyHandler.GetKey("Up"))) direction = EnumFacing.UP;
+		if(Input.GetKey(KeyHandler.GetKey("Left"))) direction = EnumFacing.LEFT;
+		else if(Input.GetKey(KeyHandler.GetKey("Right"))) direction = EnumFacing.RIGHT;
 		if(direction.Equals(EnumFacing.LEFT)) transform.rotation = Quaternion.Euler(0, 180, 0);
 		else if(direction.Equals(EnumFacing.RIGHT)) transform.rotation = Quaternion.Euler(0, 0, 0);
 
+		// Jump
+		if(Input.GetKeyDown(KeyHandler.GetKey("Jump"))) jump = true;
+
 		// Shoot
-		if(Input.GetKeyDown(KeyCode.X)) inHand.Shoot(transform.right, 100);
+		if(Input.GetKeyDown(KeyHandler.GetKey("Primary"))) {
+			Vector3 dir = new Vector3(1, 0, 0);
+			switch(direction) {
+			case EnumFacing.LEFT:
+				dir = new Vector3(-1, 0, 0);
+				break;
+			case EnumFacing.RIGHT:
+				dir = new Vector3(1, 0, 0);
+				break;
+			case EnumFacing.UP:
+				dir = new Vector3(0, 1, 0);
+				break;
+			default:
+				break;
+			}
+			inHand.Shoot(dir, 100);
+		}
 	}
 
-	void FixedUpdate() {
+	new void FixedUpdate() {
 		base.FixedUpdate ();
 		vel = rb.velocity;
 		Move();
@@ -40,27 +61,20 @@ public class Player : Damageable {
 
 	void Move() {
 		// Left/Right
-		float target = Input.GetAxisRaw("Horizontal") * horizontalSpeed;
-		vel.x = Mathf.SmoothDamp(vel.x, target, ref zero, horizontalDamping);
+		float raw = 0;
+		if(Input.GetKey(KeyHandler.GetKey("Right"))) raw = 1.0f;
+		if(Input.GetKey(KeyHandler.GetKey("Left"))) raw = -1.0f;
+		raw *= horizontalSpeed;
+		vel.x = Mathf.SmoothDamp(vel.x, raw, ref zero, horizontalDamping);
 
 		// Jump
-		if(Input.GetAxisRaw("Vertical") > 0 && canJump) {
-			if(!usedVertical) {
-				usedVertical = true;
-				vel.y = jumpForce;
-			}
-		} else usedVertical = false;
-	
-		if(IsGrounded() && Input.GetAxisRaw("Vertical") == 0f) canJump = true;
-		else canJump = false;
+		if(jump) {
+			jump = false;
+			if(IsGrounded()) vel.y = jumpForce;
+		}
 
 		// Height-based Death
 		if(transform.position.y <= -10) SetHealth(0);
-
-		// Rotate
-		float raw = Input.GetAxisRaw("Horizontal");
-		if(raw < 0) direction = EnumFacing.LEFT;
-		else if(raw > 0) direction = EnumFacing.RIGHT;
 	}
 
 	void OnTriggerEnter2D(Collider2D c) {
@@ -81,7 +95,6 @@ public class Player : Damageable {
 	public override void OnDeath() {
 		vel = Vector3.zero;
 		transform.position = new Vector3(0, 3, 0);
-		FindObjectOfType<GoombaEnemy>().gameObject.SetActive(true);
 		Reset();
 	}
 

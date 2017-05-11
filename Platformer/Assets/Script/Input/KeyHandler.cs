@@ -9,6 +9,12 @@ public class KeyHandler {
 
 	public static void Init() {
 		if(!init) {
+			SetKey("Left", KeyCode.LeftArrow);
+			SetKey("Right", KeyCode.RightArrow);
+			SetKey("Up", KeyCode.UpArrow);
+			SetKey("Jump", KeyCode.Space);
+			SetKey("Primary", KeyCode.X);
+			SetKey("Secondary", KeyCode.Z);
 			init = true;
 		}
 	}

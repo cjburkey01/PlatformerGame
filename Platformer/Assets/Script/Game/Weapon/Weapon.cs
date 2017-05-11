@@ -9,9 +9,19 @@ public class Weapon : MonoBehaviour {
 	public int maxAmmo;
 	public int damage;
 	public int ammo;
+	public float shootDelayInSeconds = 0.5f;
+	public string name;
+	public string description;
+
+	private float time = 0.0f;
+
+	void Update() {
+		time += Time.deltaTime;
+	}
 	
 	public void Shoot(Vector3 dir, float maxDistance) {
-		if(ammo > 0) {
+		if(ammo > 0 && time >= shootDelayInSeconds) {
+			time = 0.0f;
 			if(doesTakeAmmo) ammo --;
 			Vector3 pos = GetComponentInChildren<BarrelEnd>().GetPos();
 			RaycastHit2D hit = Physics2D.Raycast(pos, dir, maxDistance);
