@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LoadGame : MonoBehaviour {
 
-	public Texture2D loadingBarEmpty;
-	public Texture2D loadingBarFull;
+	public Slider slider;
 
 	private AsyncOperation asyncC;
 
 	void Start() {
+		print("Loading game...");
 		StartCoroutine(LoadLevel(2));
-		print("Load game...");
 	}
 
 	IEnumerator LoadLevel(int id) {
@@ -20,11 +20,8 @@ public class LoadGame : MonoBehaviour {
 		yield return asyncC;
 	}
 
-	void OnGUI() {
-		if(asyncC != null) {
-			GUI.DrawTexture(new Rect(20, 20, 300, 25), loadingBarEmpty);
-			GUI.DrawTexture(new Rect(20, 20, 300 * asyncC.progress, 25), loadingBarFull);
-		}
+	void Update() {
+		slider.value = asyncC.progress;
 	}
 
 }
