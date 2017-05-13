@@ -4,13 +4,5 @@ using UnityEngine;
 
 public class Ammo : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+	public int Ammo = 20;
 }
