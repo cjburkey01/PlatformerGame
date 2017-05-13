@@ -8,6 +8,7 @@ public class GoombaEnemy : Damageable {
 	public Vector3 point2;
 	public float timeInSeconds;
 	public GameObject explosion;
+	public GameObject drop;
 
 	private Vector3 origin;
 	private Vector3 target;
@@ -28,6 +29,7 @@ public class GoombaEnemy : Damageable {
 				flipped = true;
 				SetOriginAndTarget(point2, point1);
 			}
+			print("Got there");
 		}
 
 		progress += Time.deltaTime / timeInSeconds;
@@ -46,7 +48,8 @@ public class GoombaEnemy : Damageable {
 
 	public override void OnDeath() {
 		Instantiate(explosion, transform.position, Quaternion.identity);
-		gameObject.SetActive (false);
+		Instantiate(drop, transform.position, Quaternion.identity);
+		gameObject.SetActive(false);
 	}
 
 }

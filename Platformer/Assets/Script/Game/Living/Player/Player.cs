@@ -13,7 +13,7 @@ public class Player : Damageable {
 
 	public float horizontalSpeed = 1.0f;
 	public float horizontalDamping = 0.1f;
-	public float jumpForce = 1.0f;
+	public float jumpForce = 1.25f;
 	public Weapon inHand;
 
 	void Start() {

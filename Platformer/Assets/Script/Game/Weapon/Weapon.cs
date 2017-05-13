@@ -10,7 +10,7 @@ public class Weapon : MonoBehaviour {
 	public int damage;
 	public int ammo;
 	public float shootDelayInSeconds = 0.5f;
-	public string name;
+	public string weaponName;
 	public string description;
 
 	private float time = 0.0f;

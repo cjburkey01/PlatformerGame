@@ -20,7 +20,6 @@ public class Damageable : MonoBehaviour {
 	}
 
 	public void SetHealth(int amt) {
-		print (amt);
 		health = amt;
 	}
 
