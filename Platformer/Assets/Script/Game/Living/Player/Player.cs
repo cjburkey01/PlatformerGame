@@ -10,7 +10,9 @@ public class Player : Damageable {
 	private Vector3 vel;
 	private float zero = 0;
 	private bool jump = false;
+	private float dTime;
 
+	public float damageTime = 0.25f;
 	public float horizontalSpeed = 1.0f;
 	public float horizontalDamping = 0.1f;
 	public float jumpForce = 1.25f;
@@ -28,6 +30,8 @@ public class Player : Damageable {
 		else if(Input.GetKey(KeyHandler.GetKey("Right"))) direction = EnumFacing.RIGHT;
 		if(direction.Equals(EnumFacing.LEFT)) transform.rotation = Quaternion.Euler(0, 180, 0);
 		else if(direction.Equals(EnumFacing.RIGHT)) transform.rotation = Quaternion.Euler(0, 0, 0);
+
+		dTime += Time.deltaTime;
 
 		// Jump
 		if(Input.GetKeyDown(KeyHandler.GetKey("Jump"))) jump = true;
@@ -77,13 +81,18 @@ public class Player : Damageable {
 		if(transform.position.y <= -10) SetHealth(GetHealth() - 5);
 	}
 
-	void OnTriggerEnter2D(Collider2D c) {
-		CheckDamage(c);
+	void OnTriggerStay2D(Collider2D c) {
+		if (dTime >= damageTime) {
+			CheckDamage (c);
+		}
 	}
 
 	void CheckDamage(Collider2D c) {
 		Damager dmgr = c.gameObject.GetComponent<Damager>();
-		if(dmgr != null) SetHealth(GetHealth() - dmgr.damageDone);
+		if (dmgr != null) {
+			dTime = 0;
+			SetHealth (GetHealth () - dmgr.damageDone);
+		}
 	}
 
 	bool IsGrounded() {
