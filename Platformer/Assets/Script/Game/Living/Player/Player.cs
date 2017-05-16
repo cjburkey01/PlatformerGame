@@ -74,7 +74,7 @@ public class Player : Damageable {
 		}
 
 		// Height-based Death
-		if(transform.position.y <= -10) SetHealth(0);
+		if(transform.position.y <= -10) SetHealth(GetHealth() - 5);
 	}
 
 	void OnTriggerEnter2D(Collider2D c) {
