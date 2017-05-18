@@ -7,46 +7,63 @@ public class MenuBase : MonoBehaviour {
 
 	private List<MenuOption> options;
 	private int selected;
+	private bool wait = true;
 
 	public virtual void PopulateMenu() { print("Override PopulateMenu()!"); }
+	public virtual void OnSelectOption(int selected) {  }
+	public virtual void OnActivateOption(int selected) {  }
 
 	void Awake() {
 		options = new List<MenuOption>();
 		PopulateMenu();
-		UpdateChoice();
+		UpdateChoice(false);
 	}
 
-	void Update() {
-		if(Input.GetKeyDown(KeyHandler.GetKey("Menu_Down"))) {
-			selected ++;
-			UpdateChoice();
-		} else if(Input.GetKeyDown(KeyHandler.GetKey("Menu_Up"))) {
-			selected --;
-			UpdateChoice();
-		} else if(Input.GetKeyDown(KeyHandler.GetKey("Menu_Submit"))) {
-			DoAction();
+	public void Wait() {
+		wait = true;
+	}
+
+	protected void Update() {
+		if(!wait && options != null) {
+			if(Input.GetKeyUp(KeyHandler.GetKey("Menu_Down"))) {
+				selected++;
+				UpdateChoice(true);
+			} else if(Input.GetKeyUp(KeyHandler.GetKey("Menu_Up"))) {
+				selected--;
+				UpdateChoice(true);
+			} else if(Input.GetKeyUp(KeyHandler.GetKey("Menu_Submit"))) {
+				DoAction();
+			}
+		} else {
+			wait = false;
 		}
 	}
 
 	void CheckValue() {
-		if(selected >= options.Count) selected = 0;
-		if(selected < 0) selected = options.Count - 1;
+		if(options != null) {
+			if(selected >= options.Count) selected = 0;
+			if(selected < 0) selected = options.Count - 1;
+		}
 	}
 
 	void DoAction() {
+		OnActivateOption(selected);
 		DestylizeAll();
 		options[selected].Activate();
 		options[selected].Call();
 	}
 
-	void UpdateChoice() {
-		CheckValue();
-		DestylizeAll();
-		options[selected].Select(true);
+	void UpdateChoice(bool update) {
+		if(options != null) {
+			if(update) OnSelectOption(selected);
+			CheckValue();
+			DestylizeAll();
+			options[selected].Select(true);
+		}
 	}
 
 	void DestylizeAll() {
-		foreach(MenuOption opt in options) opt.Select(false);
+		if(options != null) foreach(MenuOption opt in options) opt.Select(false);
 	}
 
 	public void AddOption(Text text, MenuOption.OnCall onCall) {
@@ -55,7 +72,7 @@ public class MenuBase : MonoBehaviour {
 
 	public void Select(int i) {
 		selected = i;
-		CheckValue();
+		UpdateChoice(false);
 	}
 
 	public class MenuOption {
