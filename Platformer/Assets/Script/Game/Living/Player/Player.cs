@@ -12,10 +12,11 @@ public class Player : Damageable {
 	private bool jump = false;
 	private float dTime;
 
-	public float damageTime = 0.25f;
+	public float damageTime = 0.5f;
 	public float horizontalSpeed = 1.0f;
 	public float horizontalDamping = 0.1f;
 	public float jumpForce = 1.25f;
+	public DamageVignette damageEffect;
 	public Weapon inHand;
 
 	void Start() {
@@ -91,7 +92,8 @@ public class Player : Damageable {
 		Damager dmgr = c.gameObject.GetComponent<Damager>();
 		if (dmgr != null) {
 			dTime = 0;
-			SetHealth (GetHealth () - dmgr.damageDone);
+			SetHealth(GetHealth () - dmgr.damageDone);
+			if(damageEffect != null) damageEffect.TakeDamage();
 		}
 	}
 

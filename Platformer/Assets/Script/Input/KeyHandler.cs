@@ -15,6 +15,9 @@ public class KeyHandler {
 			SetKey("Jump", KeyCode.Space);
 			SetKey("Primary", KeyCode.X);
 			SetKey("Secondary", KeyCode.Z);
+			SetKey("Menu_Down", KeyCode.DownArrow);
+			SetKey("Menu_Up", KeyCode.UpArrow);
+			SetKey("Menu_Submit", KeyCode.Return);
 			init = true;
 		}
 	}

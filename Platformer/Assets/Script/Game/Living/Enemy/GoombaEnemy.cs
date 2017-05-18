@@ -29,7 +29,6 @@ public class GoombaEnemy : Damageable {
 				flipped = true;
 				SetOriginAndTarget(point2, point1);
 			}
-			print("Got there");
 		}
 
 		progress += Time.deltaTime / timeInSeconds;
