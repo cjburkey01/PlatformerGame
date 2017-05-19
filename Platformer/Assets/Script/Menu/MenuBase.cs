@@ -25,13 +25,13 @@ public class MenuBase : MonoBehaviour {
 
 	protected void Update() {
 		if(!wait && options != null) {
-			if(Input.GetKeyUp(KeyHandler.GetKey("Menu_Down"))) {
+			if(Input.GetKeyDown(KeyHandler.GetKey("Menu_Down"))) {
 				selected++;
 				UpdateChoice(true);
-			} else if(Input.GetKeyUp(KeyHandler.GetKey("Menu_Up"))) {
+			} else if(Input.GetKeyDown(KeyHandler.GetKey("Menu_Up"))) {
 				selected--;
 				UpdateChoice(true);
-			} else if(Input.GetKeyUp(KeyHandler.GetKey("Menu_Submit"))) {
+			} else if(Input.GetKeyDown(KeyHandler.GetKey("Menu_Submit"))) {
 				DoAction();
 			}
 		} else {

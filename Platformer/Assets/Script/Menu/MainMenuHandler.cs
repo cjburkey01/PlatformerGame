@@ -40,7 +40,7 @@ public class MainMenuHandler : MenuHandledBase {
 	}
 
 	public void OnCredits() {
-		// TODO: CREDITS SCREEN
+		GetHandler ().SetMenu (2);
 	}
 
 	public void OnQuitGame() {
