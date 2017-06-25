@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerUIManager : MonoBehaviour {
 
 	public UIHandler uiHandler;
+	private bool inventoryOpen;
 
 	void Awake() {
 		if(uiHandler != null) {
@@ -14,9 +15,13 @@ public class PlayerUIManager : MonoBehaviour {
 
 	void Update() {
 		if(uiHandler != null) {
-			if(KeyHandler.IsKeyDown("Inventory_Open")) {
+			bool open = KeyHandler.IsKeyDown("Inventory_Open");
+			bool close = KeyHandler.IsKeyDown("GUI_Close");
+			if(open && !inventoryOpen) {
+				inventoryOpen = true;
 				OpenInventory();
-			} else if(KeyHandler.IsKeyDown("GUI_Close")) {
+			} else if((open && inventoryOpen) || (open || close)) {
+				inventoryOpen = false;
 				CloseInventory();
 			}
 		}
