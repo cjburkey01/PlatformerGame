@@ -18,6 +18,8 @@ public class KeyHandler {
 			SetKey("Menu_Down", KeyCode.DownArrow);
 			SetKey("Menu_Up", KeyCode.UpArrow);
 			SetKey("Menu_Submit", KeyCode.Return);
+			SetKey("Inventory_Open", KeyCode.E);
+			SetKey("GUI_Close", KeyCode.Escape);
 			init = true;
 		}
 	}
@@ -36,6 +38,12 @@ public class KeyHandler {
 		KeyCode c = GetKey(name);
 		if(c == KeyCode.None) return false;
 		return Input.GetKey(c);
+	}
+
+	public static bool IsKeyDown(string name) {
+		KeyCode c = GetKey(name);
+		if(c == KeyCode.None) return false;
+		return Input.GetKeyDown(c);
 	}
 
 }
