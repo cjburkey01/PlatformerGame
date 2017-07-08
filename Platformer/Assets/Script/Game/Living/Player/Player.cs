@@ -105,6 +105,7 @@ public class Player : Damageable {
 
 	public override void OnDeath() {
 		vel = Vector3.zero;
+		rb.velocity = Vector2.zero;
 		transform.position = new Vector3(0, 3, 0);
 		Reset();
 	}
